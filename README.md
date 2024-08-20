@@ -1,1 +1,2 @@
 # AllDesignPatterns
+- Strategy
