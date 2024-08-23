@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BaseProject.Models
 {
-    public class AppIdentityDBContext : IdentityDbContext
+    public class AppIdentityDBContext : IdentityDbContext<AppUser>
     {
         public AppIdentityDBContext(DbContextOptions<AppIdentityDBContext> options) : base(options)
         {
