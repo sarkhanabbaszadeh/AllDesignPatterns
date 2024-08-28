@@ -8,6 +8,8 @@ namespace WebApp.Strategy.Repositories
 
         Task<List<Product>> GetAllByUserId(string userId);
 
+        Task<Product> Save(Product product);
+
         Task Update(Product product);
 
         Task Delete(Product product);
