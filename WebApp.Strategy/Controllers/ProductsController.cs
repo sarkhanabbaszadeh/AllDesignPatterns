@@ -69,9 +69,15 @@ namespace WebApp.Strategy.Controllers
             {
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 product.UserId = user.Id;
-                product.Name = product.Name;
+                product.CreatedDate = DateTime.Now;
                 await _productRepository.Save(product);
                 return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                var errors = ModelState.Select(x => x.Value.Errors)
+                                       .Where(y => y.Count > 0)
+                                       .ToList();
             }
             return View(product);
         }
