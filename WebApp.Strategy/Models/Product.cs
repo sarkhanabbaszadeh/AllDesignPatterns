@@ -11,7 +11,7 @@ namespace WebApp.Strategy.Models
         [BsonId] //For MongoDB
         [Key] //For EFCore
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)] //For MongoDB
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         public string Name { get; set; }
 
@@ -21,7 +21,7 @@ namespace WebApp.Strategy.Models
 
         public int Stock { get; set; }
 
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
         [BsonRepresentation(BsonType.DateTime)]
         public DateTime CreatedDate { get; set; }

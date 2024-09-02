@@ -1,11 +1,35 @@
 using BaseProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WebApp.Strategy.Models;
+using WebApp.Strategy.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IProductRepository>(sp =>
+{
+    var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
+
+    var claim = httpContextAccessor.HttpContext.User?.Claims?.Where(x => x.Type == Settings.claimDatabaseType).FirstOrDefault();
+
+    var context = sp.GetRequiredService<AppIdentityDBContext>();
+
+    if (claim == null) return new ProductRepositoryFromSqlServer(context);
+
+    var databaseType = (EDatabaseType) int.Parse(claim.Value);
+
+    return databaseType switch
+    {
+        EDatabaseType.SqlServer => new ProductRepositoryFromSqlServer(context),
+        EDatabaseType.MongoDb => new ProductRepositoryFromMongoDb(builder.Configuration),
+        _ => throw new NotImplementedException() // Default Case
+    };
+
+});
+
 builder.Services.AddDbContext<AppIdentityDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
