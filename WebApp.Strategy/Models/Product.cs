@@ -10,12 +10,13 @@ namespace WebApp.Strategy.Models
     {
         [BsonId] //For MongoDB
         [Key] //For EFCore
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)] //For MongoDB
+        [BsonRepresentation(BsonType.ObjectId)] //For MongoDB
+        [BsonElement("_id")]
         public string? Id { get; set; }
 
         public string Name { get; set; }
 
-        [BsonRepresentation(BsonType.ObjectId)] //For MongoDB
+        [BsonRepresentation(BsonType.Decimal128)] //For MongoDB
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
